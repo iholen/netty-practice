@@ -1,6 +1,6 @@
 package server;
 
-import server.handler.TimeServerHandler;
+import handler.server.TimeServerHandler;
 
 /**
  * @author huliang

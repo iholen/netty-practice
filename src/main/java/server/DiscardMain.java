@@ -1,6 +1,6 @@
 package server;
 
-import server.handler.DiscardServerHandler;
+import handler.server.DiscardServerHandler;
 
 /**
  * @author huliang

@@ -1,6 +1,6 @@
 package server;
 
-import server.handler.EchoServerHandler;
+import handler.server.EchoServerHandler;
 
 /**
  * @author huliang

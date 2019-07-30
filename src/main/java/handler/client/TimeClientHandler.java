@@ -1,5 +1,6 @@
-package server.handler;
+package handler.client;
 
+import handler.server.ServerHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import java.util.Date;
