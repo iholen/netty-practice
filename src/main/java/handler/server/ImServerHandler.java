@@ -1,7 +1,6 @@
 package handler.server;
 
 import handler.BaseHandler;
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
