@@ -20,6 +20,7 @@ public class TimeServerHandler extends BaseHandler {
         final ChannelFuture channelFuture = ctx.writeAndFlush(time);
 
         channelFuture.addListener(new ChannelFutureListener() {
+            @Override
             public void operationComplete(ChannelFuture future) throws Exception {
                 assert channelFuture == future;
                 ctx.close();
