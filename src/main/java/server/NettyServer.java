@@ -8,7 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import handler.server.ServerHandler;
+import handler.BaseHandler;
 
 /**
  * Discard any incoming data
@@ -19,14 +19,14 @@ import handler.server.ServerHandler;
 public class NettyServer {
 
     private int port;
-    private final ServerHandler serverHandler;
+    private final BaseHandler serverHandler;
 
-    public NettyServer(int port, ServerHandler serverHandler) {
+    public NettyServer(int port, BaseHandler serverHandler) {
         this.serverHandler = serverHandler;
         this.port = port;
     }
 
-    public void run() throws Exception {
+    public void run() {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 

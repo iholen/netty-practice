@@ -1,4 +1,4 @@
-package handler.server;
+package handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -7,7 +7,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * @author huliang
  * @date 2019-07-30 17:12
  */
-public class ServerHandler extends ChannelInboundHandlerAdapter {
+public class BaseHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
