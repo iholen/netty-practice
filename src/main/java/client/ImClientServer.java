@@ -11,8 +11,12 @@ import java.util.Scanner;
  */
 public class ImClientServer {
 
-    public static void main(String[] args) throws Exception {
-        final ImClientHandler handler = new ImClientHandler();
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Input your name: ");
+        String userName = sc.nextLine();
+
+        final ImClientHandler handler = new ImClientHandler(userName);
 
         Thread connectThread = new Thread(() -> {
             new TimeClient(new ChannelInitializer<SocketChannel>() {
@@ -20,7 +24,7 @@ public class ImClientServer {
                 protected void initChannel(SocketChannel ch) throws Exception {
                     ch.pipeline().addLast(handler);
                 }
-            }).run();
+            }, handler).run();
         });
         connectThread.start();
 
@@ -30,14 +34,19 @@ public class ImClientServer {
         }
         System.out.println("已连接至服务器...");
 
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            String message = sc.nextLine();
-            if ("exit".equals(message)) {
-                break;
-            } else {
-                handler.sendMessage(message);
+        try {
+            while (true) {
+                String message = sc.nextLine();
+                if ("exit".equals(message)) {
+                    // 离开聊天室提醒
+                    handler.sendMessage(handler.userName + " has left the chat room.");
+                    break;
+                } else {
+                    handler.sendMessage(handler.userName + " said: " + message);
+                }
             }
+        } finally {
+            handler.workGroup.shutdownGracefully();
         }
     }
 

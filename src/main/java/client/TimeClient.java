@@ -1,5 +1,7 @@
 package client;
 
+import handler.BaseHandler;
+import handler.client.ImClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -16,9 +18,15 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 public class TimeClient {
 
     private ChannelInitializer<SocketChannel> initializer;
+    public BaseHandler handler = null;
 
     public TimeClient(ChannelInitializer<SocketChannel> initializer) {
         this.initializer = initializer;
+    }
+
+    public TimeClient(ChannelInitializer<SocketChannel> initializer, BaseHandler handler) {
+        this.initializer = initializer;
+        this.handler = handler;
     }
 
     public void run() {
@@ -34,6 +42,10 @@ public class TimeClient {
 
         try {
             ChannelFuture future = bootstrap.connect(host, port).sync();
+            if (handler instanceof ImClientHandler) {
+                ImClientHandler imClientHandler = (ImClientHandler)handler;
+                imClientHandler.workGroup = workGroup;
+            }
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();

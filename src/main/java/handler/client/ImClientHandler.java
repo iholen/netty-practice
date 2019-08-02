@@ -4,6 +4,7 @@ import handler.BaseHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.EventLoopGroup;
 import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
 
@@ -14,6 +15,12 @@ import io.netty.util.ReferenceCountUtil;
 public class ImClientHandler extends BaseHandler {
 
     public ChannelHandlerContext serverCtx = null;
+    public String userName;
+    public EventLoopGroup workGroup;
+
+    public ImClientHandler(String userName) {
+        this.userName = userName;
+    }
 
     public void sendMessage(String message) {
         serverCtx.writeAndFlush(Unpooled.copiedBuffer(message, CharsetUtil.UTF_8));
@@ -21,7 +28,14 @@ public class ImClientHandler extends BaseHandler {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        this.serverCtx = ctx;
+        serverCtx = ctx;
+        // 加入聊天室提醒
+        sendMessage(userName + " joined the chat room.");
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        serverCtx = null;
     }
 
     @Override

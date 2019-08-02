@@ -1,8 +1,11 @@
 package handler.server;
 
 import handler.BaseHandler;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +22,15 @@ public class ImServerHandler extends BaseHandler {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ctxList.add(ctx);
-        System.out.println("当前连接数：" + ctxList.size());
+        String message = "Current online count: " + ctxList.size();
+        ctx.writeAndFlush(Unpooled.copiedBuffer(message, CharsetUtil.UTF_8));
+        System.out.println(message);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         ctxList.remove(ctx);
-        System.out.println("当前连接数：" + ctxList.size());
+        System.out.println("Current online count: " + ctxList.size());
     }
 
     @Override
