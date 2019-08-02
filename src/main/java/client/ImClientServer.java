@@ -9,7 +9,7 @@ import java.util.Scanner;
  * @author huliang
  * @date 2019-07-30 17:17
  */
-public class ImClientMain {
+public class ImClientServer {
 
     public static void main(String[] args) throws Exception {
         final ImClientHandler handler = new ImClientHandler();

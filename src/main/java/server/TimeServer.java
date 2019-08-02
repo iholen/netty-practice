@@ -1,15 +1,15 @@
 package server;
 
-import handler.server.ImServerHandler;
+import handler.server.TimeServerHandler;
 
 /**
  * @author huliang
  * @date 2019-07-30 17:17
  */
-public class ImServerMain {
+public class TimeServer {
 
     public static void main(String[] args) throws Exception {
-        new NettyServer(8000, new ImServerHandler()).run();
+        new NettyServer(8000, new TimeServerHandler()).run();
     }
 
 }

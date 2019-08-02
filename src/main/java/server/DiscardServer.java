@@ -6,7 +6,7 @@ import handler.server.DiscardServerHandler;
  * @author huliang
  * @date 2019-07-30 17:17
  */
-public class DiscardMain {
+public class DiscardServer {
 
     public static void main(String[] args) throws Exception {
         int port = 8000;
