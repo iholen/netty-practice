@@ -4,6 +4,9 @@ import handler.client.ImClientHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import java.util.Scanner;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author huliang
@@ -18,15 +21,20 @@ public class ImClientServer {
 
         final ImClientHandler handler = new ImClientHandler(userName);
 
-        Thread connectThread = new Thread(() -> {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(
+            1,
+            1,
+            1,
+            TimeUnit.SECONDS,
+            new ArrayBlockingQueue<>(1),
+            (r) -> new Thread(r,"连接服务器线程"));
+        executor.execute(() ->
             new TimeClient(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel ch) throws Exception {
                     ch.pipeline().addLast(handler);
                 }
-            }, handler).run();
-        });
-        connectThread.start();
+            }, handler).run());
 
         System.out.println("正在连接...");
         while (handler.serverCtx == null) {
@@ -47,6 +55,7 @@ public class ImClientServer {
             }
         } finally {
             handler.workGroup.shutdownGracefully();
+            executor.shutdown();
         }
     }
 
